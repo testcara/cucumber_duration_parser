@@ -92,7 +92,7 @@ class CucumberFeaturesDurationParser(object):
         '''
         return []: features groups list
         '''
-        logging.info('Begin: spilt features {} to groups by the threshold {}'.format(
+        logging.info('Begin: split features {} to groups by the threshold {}'.format(
             feature_time_map, time_threshold))
         features_groups_list = []
         total_time = 0
@@ -133,7 +133,7 @@ class CucumberFeaturesDurationParser(object):
             features_string = ''
             total_time = 0
             for feature, time in features_group.items():
-                features_string += ' -n "{}"'.format(feature)
+                features_string += " -n '{}'".format(feature)
                 total_time += time
             formmated_features_groups[features_string] = total_time
 

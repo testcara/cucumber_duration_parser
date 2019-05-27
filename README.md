@@ -4,23 +4,21 @@ Cucumber HTML Report Duration Parser
 Background
 ====
 
-Nowadays, we build our CI/CD in the cloud platform. It is very common for us to build cucumber testing
-parallel to decrease the testing time and improve the efficiency.
-For example, in my project, I split the cucumber cases to multiple groups. Every group does testing
-against separate instant created apps. One pipeline can control the whole process, based on some parameters you specify to build apps, deploy them then do testings in parallel.
+Nowadays, we build our CI/CD in the cloud platform. It is very common for us to build cucumber testing in parallel to decrease the testing time and improve the efficiency.
+Cucumber has its own parallel support to run testing against one server in parallel.
+However, in some situation, cases cannot be run in parallel well.
+In my project, we have many testing cases which will last for more than 1 hour and most cases cannot be run in parallel against one server. To improve the efficiency, I use the Jenkins pipeline parallel function to create and deploy multiple same applications to run different cucumber cases. To make sure every parallel line can complete in a fixed time, I need to split my cucumber cases to meaningful groups.
 
-One important thing is how to split the cucumber cases to reasonable groups.
-The parser is to resolve the problem.
+The parser is to resolve the problem how to split the cucumber cases into reasonable groups to make sure the testing can be finished in the fixed time.
 
 How it works
 ===
 Shortly, we parser the 'overview-features.html' cucumber report to get the duration and features map, then based on the threshold user specifies, the parser would group the features automatically.
-For example, ideally, if all cases run in 300 seconds, we specify the threshold as 100, the parser
-would split them to 3 groups. The duration of each group is close to 100.
+For example, ideally, if all cases run in 300 seconds, we specify the threshold as 100, the parser would split features to 3 groups. The duration of each group is close to 100.
 
 How to use it
 ===
-Python 3 and some basic python libs(you can see the file directly to confirm the packages) are needed. And you need to download your 'overview-features.html' cucumber report from your Jen`kins project, then try to run the following command:
+Python 3 and some basic python libs(like beautifulsoup4 and argparse) are needed. And you need to download your 'overview-features.html' cucumber report from your Jen`kins project, then try to run the following command:
 ```
 python3 cucumber_feature_duration_parser.py --cucumber-html-report=overview-features.html
 --threshold=900
@@ -33,4 +31,10 @@ disable ACL (Approved Component List) requirement for releases" -n "Publish all 
 ```
 One key is one feature group.
 
-Free to enjoy it!
+Notes:
+===
+The parser just provide the group features as one references, for:
+* The parser just groups features based on the duration.
+* The parser just analyze one report
+That is to day, it might be a bit imprecise, free to do double confirm and adjustments if needed.
+Free to enjoy it! Thank you!
